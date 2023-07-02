@@ -10,7 +10,7 @@ def create_document_from_file():
         with open(file_path, 'r') as file:
             document = json.load(file)
 
-        response = requests.post(f"{API_ENDPOINT}/documents", json=json.dumps(document))
+        response = requests.post(f"{API_ENDPOINT}/documents", json=document)
         if response.status_code == 201:
             created_document = response.json()
             document_id = created_document['_id']
