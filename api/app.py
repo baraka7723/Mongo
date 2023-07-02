@@ -12,6 +12,8 @@ collection = db['mycollection']
 @app.route('/documents', methods=['POST'])
 def create_document():
     document = request.get_json()
+    if not isinstance(document, dict):
+        return jsonify(error='Invalid document format.'), 400
     result = collection.insert_one(document)
     if result.inserted_id:
         document['_id'] = str(result.inserted_id)
@@ -23,6 +25,8 @@ def create_document():
 @app.route('/documents/<document_id>', methods=['PUT'])
 def update_document(document_id):
     document = request.get_json()
+    if not isinstance(document, dict):
+        return jsonify(error='Invalid document format.'), 400
     result = collection.update_one({'_id': document_id}, {'$set': document})
     if result.modified_count > 0:
         return jsonify(message='Document updated successfully.'), 200
