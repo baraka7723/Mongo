@@ -8,7 +8,7 @@ client = MongoClient(f'mongodb://{username}:{password}@mongo-container:27017')
 db = client['mydatabase']
 collection = db['mycollection']
 
-# POST Function
+#POST Function
 @app.route('/documents', methods=['POST'])
 def create_document():
     document = request.get_json()
@@ -19,7 +19,7 @@ def create_document():
     else:
         return jsonify(error='Failed to create document.'), 500
 
-# PUT Function
+#PUT Function
 @app.route('/documents/<document_id>', methods=['PUT'])
 def update_document(document_id):
     document = request.get_json()
@@ -29,7 +29,7 @@ def update_document(document_id):
     else:
         return jsonify(error='Failed to update document.'), 404
 
-# DELETE Function
+#DELETE Function
 @app.route('/documents/<document_id>', methods=['DELETE'])
 def delete_document(document_id):
     result = collection.delete_one({'_id': document_id})
@@ -38,7 +38,7 @@ def delete_document(document_id):
     else:
         return jsonify(error='Failed to delete document.'), 404
 
-# GET Function
+#GET Function
 @app.route('/documents', methods=['GET'])
 def select_documents():
     documents = list(collection.find())
