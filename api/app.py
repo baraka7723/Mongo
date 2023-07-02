@@ -8,26 +8,32 @@ client = MongoClient(f'mongodb://{username}:{password}@mongo-container:27017')
 db = client['mydatabase']
 collection = db['mycollection']
 
-#POST Function
+# POST Function
 @app.route('/documents', methods=['POST'])
 def create_document():
     document = request.get_json()
-    result = collection.insert_one(document)
-    if result.inserted_id:
-        document['_id'] = str(result.inserted_id)
-        return jsonify(document), 201
+    if isinstance(document, dict):
+        result = collection.insert_one(document)
+        if result.inserted_id:
+            document['_id'] = str(result.inserted_id)
+            return jsonify(document), 201
+        else:
+            return jsonify(error='Failed to create document.'), 500
     else:
-        return jsonify(error='Failed to create document.'), 500
+        return jsonify(error='Invalid document format. Expected a dictionary.'), 400
 
-#PUT Function
+# PUT Function
 @app.route('/documents/<document_id>', methods=['PUT'])
 def update_document(document_id):
     document = request.get_json()
-    result = collection.update_one({'_id': document_id}, {'$set': document})
-    if result.modified_count > 0:
-        return jsonify(message='Document updated successfully.'), 200
+    if isinstance(document, dict):
+        result = collection.update_one({'_id': document_id}, {'$set': document})
+        if result.modified_count > 0:
+            return jsonify(message='Document updated successfully.'), 200
+        else:
+            return jsonify(error='Failed to update document.'), 404
     else:
-        return jsonify(error='Failed to update document.'), 404
+        return jsonify(error='Invalid document format. Expected a dictionary.'), 400
 
 #DELETE Function
 @app.route('/documents/<document_id>', methods=['DELETE'])
