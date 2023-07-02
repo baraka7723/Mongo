@@ -23,16 +23,6 @@ def create_document_from_file():
 # Function to update a document
 def update_document():
     document_id = input("Enter the document ID to update: ")
-    document = input("Enter the updated document: ")
-    response = requests.put(f"{API_ENDPOINT}/documents/{document_id}", json=document)
-    if response.status_code == 200:
-        print("Document updated successfully.")
-    else:
-        print("Failed to update document.")
-
-# Function to update a document
-def update_document():
-    document_id = input("Enter the document ID to update: ")
     field = input("Enter the field to update: ")
     new_value = input("Enter the new value: ")
     update = {field: new_value}
@@ -41,6 +31,15 @@ def update_document():
         print("Document updated successfully.")
     else:
         print("Failed to update document.")
+
+# Function to delete a document
+def delete_document():
+    document_id = input("Enter the document ID to delete: ")
+    response = requests.delete(f"{API_ENDPOINT}/documents/{document_id}")
+    if response.status_code == 200:
+        print("Document deleted successfully.")
+    else:
+        print("Failed to delete document.")
 
 # Function to select documents
 def select_documents():
@@ -78,4 +77,3 @@ while True:
         break
     else:
         print("Invalid option. Try again.")
-
