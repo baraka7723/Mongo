@@ -12,30 +12,24 @@ collection = db['mycollection']
 @app.route('/documents', methods=['POST'])
 def create_document():
     document = request.get_json()
-    if isinstance(document, dict):
-        result = collection.insert_one(document)
-        if result.inserted_id:
-            document['_id'] = str(result.inserted_id)
-            return jsonify(document), 201
-        else:
-            return jsonify(error='Failed to create document.'), 500
+    result = collection.insert_one(document)
+    if result.inserted_id:
+        document['_id'] = str(result.inserted_id)
+        return jsonify(document), 201
     else:
-        return jsonify(error='Invalid document format. Expected a dictionary.'), 400
+        return jsonify(error='Failed to create document.'), 500
 
 # PUT Function
 @app.route('/documents/<document_id>', methods=['PUT'])
 def update_document(document_id):
     document = request.get_json()
-    if isinstance(document, dict):
-        result = collection.update_one({'_id': document_id}, {'$set': document})
-        if result.modified_count > 0:
-            return jsonify(message='Document updated successfully.'), 200
-        else:
-            return jsonify(error='Failed to update document.'), 404
+    result = collection.update_one({'_id': document_id}, {'$set': document})
+    if result.modified_count > 0:
+        return jsonify(message='Document updated successfully.'), 200
     else:
-        return jsonify(error='Invalid document format. Expected a dictionary.'), 400
+        return jsonify(error='Failed to update document.'), 404
 
-#DELETE Function
+# DELETE Function
 @app.route('/documents/<document_id>', methods=['DELETE'])
 def delete_document(document_id):
     result = collection.delete_one({'_id': document_id})
@@ -44,7 +38,7 @@ def delete_document(document_id):
     else:
         return jsonify(error='Failed to delete document.'), 404
 
-#GET Function
+# GET Function
 @app.route('/documents', methods=['GET'])
 def select_documents():
     documents = list(collection.find())
