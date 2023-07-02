@@ -3,8 +3,11 @@ services:
   mongo:
     image: mongo:latest
     container_name: mongo-container
+    environment:
+      - MONGO_INITDB_ROOT_USERNAME=admin
+      - MONGO_INITDB_ROOT_PASSWORD=secret
     volumes:
-      - ./data:/data/db
+      - ./data/db:/data/db
 
   api:
     build:
@@ -28,7 +31,7 @@ services:
     depends_on:
       - api
     volumes:
-      - ./data:/app/files
+      - ./data/import:/app/files
       
   compass:
     image: mongocompass/mongocompass:latest
