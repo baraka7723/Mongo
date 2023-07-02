@@ -16,7 +16,7 @@ services:
     depends_on:
       - mongo
     volumes:
-      - ./data:/app/data
+      - ./data/db:/app/data
 
   cli:
     build:
@@ -29,3 +29,11 @@ services:
       - api
     volumes:
       - ./data:/app/files
+      
+  compass:
+    image: mongocompass/mongocompass:latest
+    container_name: compass-container
+    ports:
+      - 27017:27017
+    depends_on:
+      - mongo
