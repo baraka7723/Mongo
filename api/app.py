@@ -48,4 +48,4 @@ def select_documents():
         return jsonify(error='No documents found.'), 404
 
 if __name__ == '__main__':
-    app.run(host='127.0.0.1', port=6000, debug=True)
+    app.run(host='0.0.0.0', port=6000, debug=True)
