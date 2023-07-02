@@ -4,7 +4,7 @@ WORKDIR /app
 
 COPY . .
 
-# Install the required packages
+# Install the requirements
 RUN pip install -r requirements.txt
 
 # Expose API port
