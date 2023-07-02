@@ -4,7 +4,9 @@ from pymongo import MongoClient
 app = Flask(__name__)
 
 # Connect to the MongoDB server
-client = MongoClient('mongodb://mongo-container:27017')
+username = 'admin'
+password = 'secret'
+client = MongoClient(f'mongodb://{username}:{password}@mongo-container:27017')
 db = client['mydatabase']
 collection = db['mycollection']
 
@@ -47,4 +49,3 @@ def select_documents():
 
 if __name__ == '__main__':
     app.run(host='127.0.0.1', port=6000, debug=True)
-
