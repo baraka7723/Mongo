@@ -2,8 +2,6 @@ from flask import Flask, request, jsonify
 from pymongo import MongoClient
 
 app = Flask(__name__)
-
-# Connect to the MongoDB server
 username = 'admin'
 password = 'secret'
 client = MongoClient(f'mongodb://{username}:{password}@mongo-container:27017')
