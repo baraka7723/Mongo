@@ -34,7 +34,7 @@ services:
       - ./data/import:/app/files
 
   mongo-express:
-    image: mongo-express:1.0.0-alpha.4
+    image: mongo-express:latest
     container_name: mongo-express-container
     ports:
       - 8081:8081
