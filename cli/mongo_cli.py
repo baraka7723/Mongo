@@ -3,7 +3,7 @@ import json
 
 API_ENDPOINT = 'http://api-container:6000'
 
-# Function to create a document from a JSON file
+# Function to create a document from a JSON file imported by user
 def create_document_from_file():
     file_path = input("Enter the path to the JSON file: ")
     try:
