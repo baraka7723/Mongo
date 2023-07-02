@@ -8,12 +8,10 @@ client = MongoClient(f'mongodb://{username}:{password}@mongo-container:27017')
 db = client['mydatabase']
 collection = db['mycollection']
 
-# POST Function
+#POST Function
 @app.route('/documents', methods=['POST'])
 def create_document():
     document = request.get_json()
-    if not isinstance(document, dict):
-        return jsonify(error='Invalid document format.'), 400
     result = collection.insert_one(document)
     if result.inserted_id:
         document['_id'] = str(result.inserted_id)
@@ -25,8 +23,6 @@ def create_document():
 @app.route('/documents/<document_id>', methods=['PUT'])
 def update_document(document_id):
     document = request.get_json()
-    if not isinstance(document, dict):
-        return jsonify(error='Invalid document format.'), 400
     result = collection.update_one({'_id': document_id}, {'$set': document})
     if result.modified_count > 0:
         return jsonify(message='Document updated successfully.'), 200
@@ -54,4 +50,4 @@ def select_documents():
         return jsonify(error='No documents found.'), 404
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=6000, debug=True)
+    app.run(host='127.0.0.1', port=6000, debug=True)
